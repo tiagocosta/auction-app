@@ -9,6 +9,7 @@ import (
 	"github.com/tiagocosta/auction-app/internal/entity/bid_entity"
 	"github.com/tiagocosta/auction-app/internal/internal_error"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -46,7 +47,8 @@ func (br *BidRepository) FindBidByAuctionId(ctx context.Context, auctionId strin
 
 func (br *BidRepository) FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*bid_entity.Bid, *internal_error.InternalError) {
 	filter := bson.M{"auctionId": auctionId}
-	opts := options.FindOne().SetSort(bson.D{{"amount", -1}})
+	// opts := options.FindOne().SetSort(bson.D{{"amount", -1}})
+	opts := options.FindOne().SetSort(bson.D{primitive.E{Key: "amonut", Value: -1}})
 	var bidMongo BidEntityMongo
 	err := br.Collection.FindOne(ctx, filter, opts).Decode(&bidMongo)
 	if err != nil {
