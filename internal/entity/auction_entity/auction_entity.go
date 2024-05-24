@@ -26,3 +26,11 @@ type Auction struct {
 	Status      AuctionStatus
 	Timestamp   time.Time
 }
+
+func (auction *Auction) IsActive() bool {
+	return auction.Status == Active
+}
+
+func (auction *Auction) IsCompleted() bool {
+	return auction.Status == Completed
+}
