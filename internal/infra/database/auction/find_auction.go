@@ -66,7 +66,7 @@ func (ar *AuctionRepository) FindAuctions(
 	defer cursor.Close(ctx)
 
 	var auctionsMongo []AuctionEntityMongo
-	err = cursor.All(ctx, auctionsMongo)
+	err = cursor.All(ctx, &auctionsMongo)
 	if err != nil {
 		message := "error trying to find auctions"
 		logger.Error(message, err)
