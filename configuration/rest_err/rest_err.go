@@ -1,4 +1,4 @@
-package resterr
+package rest_err
 
 import "net/http"
 
@@ -18,12 +18,12 @@ func (r *RestErr) Error() string {
 	return r.Message
 }
 
-func NewBadRequestError(message string) *RestErr {
+func NewBadRequestError(message string, causes ...Cause) *RestErr {
 	return &RestErr{
 		Message: message,
 		Err:     "bad_request",
 		Code:    http.StatusBadRequest,
-		Causes:  nil,
+		Causes:  causes,
 	}
 }
 
