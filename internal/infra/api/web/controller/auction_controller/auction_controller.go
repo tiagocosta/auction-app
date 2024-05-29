@@ -5,10 +5,10 @@ import (
 )
 
 type AuctionController struct {
-	AuctionUseCase auction_usecase.AuctionUseCase
+	AuctionUseCase auction_usecase.AuctionUseCaseInterface
 }
 
-func NewAuctionController(auctionUseCase auction_usecase.AuctionUseCase) *AuctionController {
+func NewAuctionController(auctionUseCase auction_usecase.AuctionUseCaseInterface) *AuctionController {
 	return &AuctionController{
 		AuctionUseCase: auctionUseCase,
 	}
