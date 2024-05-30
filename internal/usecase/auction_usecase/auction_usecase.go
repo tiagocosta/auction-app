@@ -47,3 +47,10 @@ type AuctionUseCaseInterface interface {
 	FindAuctions(ctx context.Context, status AuctionStatus, category string, productName string) ([]AuctionOutputDTO, *internal_error.InternalError)
 	FindWinningBidByAuctionId(ctx context.Context, auctionId string) (*WinningInfoOutputDTO, *internal_error.InternalError)
 }
+
+func NewAuctionUseCase(auctionRepository auction_entity.AuctionRepositoryInterface, bidRepository bid_entity.BidRepositoryInterface) AuctionUseCaseInterface {
+	return &AuctionUseCase{
+		AuctionRepository: auctionRepository,
+		BidRepository:     bidRepository,
+	}
+}
