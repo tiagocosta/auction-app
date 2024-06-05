@@ -2,6 +2,7 @@ package auction_usecase
 
 import (
 	"context"
+	"os"
 	"time"
 
 	"github.com/tiagocosta/auction-app/internal/entity/auction_entity"
@@ -39,6 +40,9 @@ type WinningInfoOutputDTO struct {
 type AuctionUseCase struct {
 	AuctionRepository auction_entity.AuctionRepositoryInterface
 	BidRepository     bid_entity.BidRepositoryInterface
+
+	Timer    *time.Timer
+	Interval time.Duration
 }
 
 type AuctionUseCaseInterface interface {
@@ -49,8 +53,21 @@ type AuctionUseCaseInterface interface {
 }
 
 func NewAuctionUseCase(auctionRepository auction_entity.AuctionRepositoryInterface, bidRepository bid_entity.BidRepositoryInterface) AuctionUseCaseInterface {
+	auctionInterval := getAuctionInterval()
+
 	return &AuctionUseCase{
 		AuctionRepository: auctionRepository,
 		BidRepository:     bidRepository,
+		Timer:             time.NewTimer(auctionInterval),
+		Interval:          auctionInterval,
 	}
+}
+
+func getAuctionInterval() time.Duration {
+	auctionInterval := os.Getenv("AUCTION_INTERVAL")
+	duration, err := time.ParseDuration(auctionInterval)
+	if err != nil {
+		return 60 * time.Second
+	}
+	return duration
 }
