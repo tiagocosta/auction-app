@@ -67,3 +67,7 @@ func (auction *Auction) IsActive() bool {
 func (auction *Auction) IsCompleted() bool {
 	return auction.Status == Completed
 }
+
+func (auction *Auction) Finish() {
+	auction.Status = Completed
+}
